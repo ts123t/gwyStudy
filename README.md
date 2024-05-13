@@ -80,7 +80,7 @@ Java，Spring Boot、Spring Cloud Alibaba、Mybatis-Plus、Spring Boot Mail...
 
 **第一步 下载依赖** npm install  --legacy-peer-deps
 
-**第二步 修改配置** 修改\ourutopia\utopia_web\src\apiUrl.js文件里面的api地址，如果需要支持第三方登录需要去登录页面修改登录链接
+**第二步 修改配置** 修改\ourutopia\utopia_web\src\apiUrl.js文件里面的后端地址以及社交登录参数
 
 **第三步 运行项目** npm run serve --legacy-peer-deps
 
@@ -92,7 +92,7 @@ Java，Spring Boot、Spring Cloud Alibaba、Mybatis-Plus、Spring Boot Mail...
 
 **第一步** 导入SQL文件
 
-**第二步** 导入Nacos文件、修改配置信息（如：Mysql、Redis连接信息，Nacos 地址、namespace，ES、Rabbitmq可选是否配置，第三方登录密钥，邮箱配置，本地保存路径）
+**第二步** 导入Nacos文件、修改配置信息（如：Mysql、Redis连接信息，Nacos 地址、Nacos namespace，ES可选是否配置、Rabbitmq可选是否配置，社交登录密钥，邮箱配置，本地保存路径）
 
 **第三步** 项目导入Idea运行即可
 
@@ -113,7 +113,7 @@ Java，Spring Boot、Spring Cloud Alibaba、Mybatis-Plus、Spring Boot Mail...
 |            开发工具            |           说明            |
 | ----------------------------- | ------------------------- |
 | IDEA                          | Java开发工具IDE            |
-| VSCode                        | Vue开发工具IDE             |
+| VSCode                        | Vue开发工具                |
 | Navicat                       | MySQL远程连接工具          |
 | Another Redis Desktop Manager | Redis远程连接工具          |
 | finalshell                    | Linux远程连接和文件上传工具 |
