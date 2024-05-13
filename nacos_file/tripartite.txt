@@ -1,0 +1,133 @@
+server:
+  port: 8003
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 113.45.186.233:8848
+        group: DEFAULT_GROUP
+        namespace: a442c0fb-f9d6-47b2-a831-4e1f9bc2b51e
+    alicloud:
+      url: https://mall-ts.oss-cn-shanghai.aliyuncs.com
+#没有乱填，防止报错
+      access-key: LTAI51tFvxG18eaMz1rCpCwzWSa1
+      secret-key: M8rsZ1ydA1ZVSr3105O8RylRzx6f1
+      oss:
+        endpoint: oss-cn-shanghai.aliyuncs.com
+        bucket: mall-ts
+    qiniucloud:
+      accessKey: aLWsyggMru111wbTssE9uVXI16m5mubWQpQT11SyRlaFZ
+      secretKey: hzTm-vaUVLR3W1A0SrSAz7kqrJgFFB1XeJtN441KE1Y
+      bucket: utopiablog
+      domain: http://s6kglks5f.sabkt.gdipper.com
+#mysql
+  datasource:
+    url: jdbc:mysql://113.45.186.233:3306/bk_tripartite?characterEncoding=utf8&serverTimezone=GMT%2b8 
+    username: root
+    password: Tangshi..
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 10
+      max-active: 1000
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+
+  redis:
+    host: 113.45.186.233
+    password: 123456
+    port: 6379
+    database: 0
+    connect-timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 8 #最大连接数
+        max-wait: 10000ms #最大连接阻塞等待时间 默认-1
+        max-idle: 50 #最大空闲连接
+        min-idle: 5  #最小空闲连接
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  rabbitmq:
+    enable: false #是否开启Mq
+    host: 113.45.186.233
+    port: 5672
+    username: guest
+    password: guest
+    #虚拟host 可以不设置,使用server默认host    
+     #确认消息已发送到交换机(Exchange)
+    #publisher-confirms: true
+    publisher-confirm-type: correlated
+      #确认消息已发送到队列(Queue)
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: auto
+        retry:
+          #开启重试
+          enabled: true
+          #最大重试次数
+          max-attempts: 3
+          #重试间隔
+          max-interval: 1000ms
+
+  jackson:
+    #  格式化返回时间 yyyy-MM-dd HH:mm:ss
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+#邮件发送
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    default-encoding: utf-8
+    username: 2693151039@qq.com
+#  qq邮箱官网获取
+    password: djuywvrsekpoddca
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+          starttls:
+            enable: true
+            required: false
+    port: 465
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+### Logging
+logging:
+  level:
+    # com.herenit.phs.gateway.client: debug
+    org.springframework.cloud.netflix.feign: debug
+
+#图片上传方式 OSS/七牛云/本地
+picture:
+  upload:
+    type: local #local,ali,qiniu
+#如果本地上传图片需要配置
+local:
+  saveImg:
+    path: /data/img #图片保存路径
+  visit:
+    path: http://113.45.186.233:8000/tripartite/file/downloadFileByLocal  #图片访问接口
+  saveVideo:
+    path: /data/video  #视频保存路径
+

@@ -1,0 +1,134 @@
+server:
+  port: 8000
+spring:
+#redis
+  redis:
+    host: 113.45.186.233
+    password: 123456
+    port: 6379
+    database: 0
+    connect-timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 8 #最大连接数
+        max-wait: 10000ms #最大连接阻塞等待时间 默认-1
+        max-idle: 50 #最大空闲连接
+        min-idle: 5  #最小空闲连接
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 113.45.186.233:8848
+        group: DEFAULT_GROUP
+        namespace: a442c0fb-f9d6-47b2-a831-4e1f9bc2b51e
+#  网关
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        # 服务1.1
+        - id: user1
+          # 服务地址
+          uri: lb://user
+          # 拦截的路由
+          predicates:
+            - Path=/user/**
+          # 转发时去除前缀数量，当为1时:原：/server1/a/b/c  转发后为 /a/b/c
+          filters:
+            - StripPrefix=1
+
+          # 服务1.2
+        - id: user2
+          # 服务地址
+          uri: lb:ws://user
+          # 拦截的路由
+          predicates:
+            - Path=/user/**
+          # 转发时去除前缀数量，当为1时:原：/server1/a/b/c  转发后为 /a/b/c
+          filters:
+            - StripPrefix=1
+
+          # 服务2
+        - id: tripartite
+          # 服务地址
+          uri: lb://tripartite
+          # 拦截的路由
+          predicates:
+            - Path=/tripartite/**
+          # 转发时去除前缀数量，当为1时:原：/server1/a/b/c  转发后为 /a/b/c
+          filters:
+            - StripPrefix=1
+
+          # 服务3
+        - id: base
+          # 服务地址
+          uri: lb://base
+          # 拦截的路由
+          predicates:
+            - Path=/base/**
+          # 转发时去除前缀数量，当为1时:原：/server1/a/b/c  转发后为 /a/b/c
+          filters:
+            - StripPrefix=1
+exclude:
+  path:
+    #不验证token（带参数路径的地址,以','分割）
+    dynamicUrl: /base/blog/getById/,/base/comment/tree/,/user/links/
+    #ws链接不拦截
+    websocket: /user/websocket,/user/numberPeople
+    #需要的验签路径
+  isSigns:
+    - /tripartite/file/headPortraitTest
+    #忽略token的路径
+  skipAuthUrls:
+    - /base/search/getHistorySearch
+    - /base/search/getHotList
+    - /base/search/searchAll
+    - /base/search/recordSearch
+    - /user/user/oauth/gitee
+    - /user/user/oauth/weibo
+    - /user/user/oauth/github
+    - /tripartite/file/downloadFileByLocal
+    - /tripartite/file/headPortrait
+    - /user/user/oauth
+    - /tripartite/downLoadFile/lookVideo
+    - /tripartite/file/headArticle
+    - /tripartite/captcha/captcha
+    - /tripartite/ai/robotExchange
+    - /tripartite/email/sendEmailByBind
+    - /tripartite/email/sendEmail
+    - /tripartite/downLoadFile/downLoadList
+    - /tripartite/downLoadFile/test
+    - /tripartite/downLoadFile/downLoadById
+    - /tripartite/hotSearch/hotSearch
+    - /tripartite/renew/list
+    - /tripartite/navigation/list
+    - /tripartite/downLoadFile/adBarraged/v2/
+    - /base/blog/SortList
+    - /base/blog/getMyBlog
+    - /base/blog/footprint
+    - /base/blog/recommendBlog
+    - /base/blog/tagList
+    - /base/blog/page
+    - /base/blog/tagList
+    - /user/user/addMsg
+    - /user/user/getMsg
+    - /user/user/myPage
+    - /user/user/getMyInfo
+    - /user/user/register
+    - /user/user/login
+    - /user/admin/isPower #前端进入管理员页面验证身份的地址,不需要拦截
+    - /base/book/list
+    - /base/book/listBookBlog
+    - /base/colletUserFolder/list
+    - /user/user/forgetCode
+    - /user/user/resetPwd
+    - /user/user/getUserInfo
+    - /user/resume/getInfo
+
+### Logging
+logging:
+  level:
+    # com.herenit.phs.gateway.client: debug
+    org.springframework.cloud.netflix.feign: debug
+ 
